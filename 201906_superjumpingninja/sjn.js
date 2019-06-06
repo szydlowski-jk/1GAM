@@ -9,7 +9,6 @@ let wox
 let woy
 let ts
 
-const RATIO = 9/16
 const TILES_PER_VIEW = 16
 const FPS = 10
 const DT = 1000 / FPS
@@ -21,6 +20,19 @@ window.setInterval(
 window.addEventListener('resize', resize)
 resize()
 
+function rngtest (range, cycles, seed) {
+    let results = []
+    let rng = new Random(seed)
+    for(let i = 0; i < cycles; i++) {
+        let r = rng.next() % range
+        results[r] = (results[r] + 1) || 1
+    }
+
+    for ( let i = 0; i < range; i++ ) {
+        console.log(`${i}: ${results[i]} - ${(results[i] / cycles) * 100}%`)
+    }
+}
+// rngtest(7, 100000, 1)
 
 function loop () {
     ctx.fillStyle = "#995533"
