@@ -37,7 +37,7 @@ function rngtest (range, cycles, seed) {
 // rngtest(7, 100000, 1)
 
 function loop () {
-    ctx.fillStyle = "#995533"
+    ctx.fillStyle = "#000000"
     ctx.fillRect(0,0, gc.clientWidth, gc.clientHeight)
     // guarantee view rect
     ctx.fillStyle = "#00000020"
@@ -50,19 +50,19 @@ function loop () {
             if(lvl) {
                 switch(lvl.tiles[x][y]) {
                     case 0: {
-                        ctx.fillStyle = "#00000080"
+                        ctx.fillStyle = "#000000"
                         break
                     }
                     case 1: {
-                        ctx.fillStyle = "#ff000080"
+                        ctx.fillStyle = "#ff000060"
                         break
                     }
                     case 2: {
-                        ctx.fillStyle = "#00ff0080"
+                        ctx.fillStyle = "#00ff0060"
                         break
                     }
                     case 3: {
-                        ctx.fillStyle = "#0000ff80"
+                        ctx.fillStyle = "#0000ff60"
                         break
                     }
                 }
