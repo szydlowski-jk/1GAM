@@ -13,6 +13,8 @@ const TILES_PER_VIEW = 16
 const FPS = 10
 const DT = 1000 / FPS
 
+let lvl
+
 window.setInterval(
     loop,
     DT
@@ -45,6 +47,27 @@ function loop () {
         for (let y = 0; y < Math.ceil(wh / ts); y++) {
             ctx.strokeStyle = "#00000040"
             ctx.strokeRect((x * ts), (y * ts), ts, ts)
+            if(lvl) {
+                switch(lvl.tiles[x][y]) {
+                    case 0: {
+                        ctx.fillStyle = "#00000080"
+                        break
+                    }
+                    case 1: {
+                        ctx.fillStyle = "#ff000080"
+                        break
+                    }
+                    case 2: {
+                        ctx.fillStyle = "#00ff0080"
+                        break
+                    }
+                    case 3: {
+                        ctx.fillStyle = "#0000ff80"
+                        break
+                    }
+                }
+                ctx.fillRect((x * ts), (y * ts), ts, ts)
+            }
         }
     }
 }
@@ -60,5 +83,13 @@ function resize () {
 
     gc.width = ww
     gc.height = wh
+
+    if (lvl) {
+        lvl = new Level(lvl.seed+1)
+    } else {
+        lvl = new Level(1)
+    }
+    lvl.generate()
+    lvl.draw()
 }
 
