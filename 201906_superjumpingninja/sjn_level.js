@@ -12,10 +12,14 @@ class Level {
         this.sizex = 32 // TODO randomize this
         this.sizey = 32 // TODO randomize this
         this.tiles = []
-        for (let i = 0; i < this.sizey; i++) {
+        for (let y = 0; y < this.sizey; y++) {
             let r = []
-            for (let j = 0; j < this.sizex; j++) {
-                let t = rng.next() % 4
+            for (let x = 0; x < this.sizex; x++) {
+//                let t = rng.next() % 4
+                let t = 0
+                if (x == 0 || y == 0 || x == this.sizex-1 || y == this.sizey-1) {
+                    t = (rng.next() % 3) + 1
+                }
                 r.push(t)
             }
             this.tiles.push(r)

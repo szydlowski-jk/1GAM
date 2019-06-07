@@ -39,9 +39,6 @@ function rngtest (range, cycles, seed) {
 function loop () {
     ctx.fillStyle = "#000000"
     ctx.fillRect(0,0, gc.clientWidth, gc.clientHeight)
-    // guarantee view rect
-    ctx.fillStyle = "#00000020"
-    ctx.fillRect(0 + wox, 0 + woy, ts*(TILES_PER_VIEW), ts*(TILES_PER_VIEW))
 
     for(let x = 0; x < Math.ceil(ww / ts); x++) {
         for (let y = 0; y < Math.ceil(wh / ts); y++) {
@@ -70,6 +67,11 @@ function loop () {
             }
         }
     }
+
+    // guarantee view rect
+    ctx.fillStyle = "#ffffff20"
+    ctx.fillRect(0 + wox, 0 + woy, ts*(TILES_PER_VIEW), ts*(TILES_PER_VIEW))
+
 }
 
 function resize () {
