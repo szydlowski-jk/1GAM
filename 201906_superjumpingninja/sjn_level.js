@@ -5,12 +5,17 @@ class Level {
         this.seed = seed
 
         this.generated = false
+
+        this.player = {
+            x: 5.5,
+            y: 5.5
+        }
     }
 
     generate () {
         let rng = new Random(this.seed)
-        this.sizex = 32 // TODO randomize this
-        this.sizey = 32 // TODO randomize this
+        this.sizex = 14 // TODO randomize this
+        this.sizey = 14 // TODO randomize this
         this.tiles = []
         for (let y = 0; y < this.sizey; y++) {
             let r = []
