@@ -40,40 +40,8 @@ function loop () {
     ctx.fillStyle = "#000000"
     ctx.fillRect(0,0, gc.clientWidth, gc.clientHeight)
 
-    for(let x = 0; x < Math.ceil(ww / ts); x++) {
-        for (let y = 0; y < Math.ceil(wh / ts); y++) {
-            ctx.strokeStyle = "#ffffff40"
-            ctx.strokeRect((x * ts), (y * ts), ts, ts)
-            if(lvl) {
-                ctx.fillStyle = "#00ffff60"
-                if (x >= 0 && x < lvl.sizex && y >= 0 && y < lvl.sizey) {
-                    switch(lvl.tiles[x][y]) {
-                        case 0: {
-                            ctx.fillStyle = "#000000"
-                            break
-                        }
-                        case 1: {
-                            ctx.fillStyle = "#ffffff60"
-                            break
-                        }
-                        case 2: {
-                            ctx.fillStyle = "#00ff0060"
-                            break
-                        }
-                        case 3: {
-                            ctx.fillStyle = "#0000ff60"
-                            break
-                        }
-                        default: {
-                            ctx.fillStyle = "#ff00ff60"
-                        }
-
-                    }
-                }
-                ctx.fillRect((x * ts), (y * ts), ts, ts)
-            }
-        }
-    }
+    lvl.update()
+    lvl.draw()
 
     // guarantee view rect
     ctx.fillStyle = "#ffffff20"
