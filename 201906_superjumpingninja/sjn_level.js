@@ -42,10 +42,16 @@ class Level {
     }
 
     draw() {
-        for (let x = 0; x < Math.ceil(ww / ts); x++) {
-            for (let y = 0; y < Math.ceil(wh / ts); y++) {
+        let ox = (ww * 0.5) - (this.player.x * ts)
+        let oy = (wh * 0.5) - (this.player.y * ts)
+        for (let x = 0; x < lvl.sizex; x++) {
+            for (let y = 0; y < lvl.sizey; y++) {
+                // let tx = (x - this.player.x + (TILES_PER_VIEW/2)) * ts
+                // let ty = (y - this.player.y + (TILES_PER_VIEW/2)) * ts
                 ctx.strokeStyle = "#ffffff40"
-                ctx.strokeRect((x * ts), (y * ts), ts, ts)
+                ctx.strokeRect((x * ts)+ox, (y * ts)+oy, ts, ts)
+                // ctx.strokeStyle = "#ffff0060"
+                // ctx.strokeRect(tx, ty, ts, ts)
                 if (lvl) {
                     ctx.fillStyle = "#00ffff60"
                     if (x >= 0 && x < lvl.sizex && y >= 0 && y < lvl.sizey) {
@@ -72,7 +78,7 @@ class Level {
 
                         }
                     }
-                    ctx.fillRect((x * ts), (y * ts), ts, ts)
+                    ctx.fillRect((x * ts) + ox, (y * ts) + oy, ts, ts)
                 }
             }
         }
@@ -80,8 +86,8 @@ class Level {
         //! Player Draw
         ctx.fillStyle = "#884411"
         ctx.fillRect(
-            this.player.x * ts - ts * 0.25,
-            this.player.y * ts - ts * 0.25,
+            this.player.x * ts - ts * 0.25 + ox,
+            this.player.y * ts - ts * 0.25 + oy,
             ts * 0.5,
             ts * 0.5
         )
