@@ -1,19 +1,16 @@
 'use strict'
 
+
+
 class Level {
     constructor(seed) {
         this.seed = seed
 
         this.generated = false
 
-        this.player = {
-            x: 5.5,
-            y: 5.5,
-            sx: 0,
-            sy: 0,
-            ax: 0,
-            ay: 0
-        }
+        this.player = {}
+        this.player.pos = new Vector(5.5, 5.5)
+        this.player.spd = new Vector(0, 0.0)
     }
 
     generate() {
@@ -37,13 +34,12 @@ class Level {
     }
 
     update() {
-        this.player.x += this.player.sx
-        this.player.y += this.player.sy
+        this.player.pos.add(this.player.spd)
     }
 
     draw() {
-        let ox = (ww * 0.5) - (this.player.x * ts)
-        let oy = (wh * 0.5) - (this.player.y * ts)
+        let ox = ((ww * 0.5) - (this.player.pos.x * ts)) || 0
+        let oy = ((wh * 0.5) - (this.player.pos.y * ts)) || 0
         for (let x = 0; x < lvl.sizex; x++) {
             for (let y = 0; y < lvl.sizey; y++) {
                 // let tx = (x - this.player.x + (TILES_PER_VIEW/2)) * ts
@@ -86,8 +82,8 @@ class Level {
         //! Player Draw
         ctx.fillStyle = "#884411"
         ctx.fillRect(
-            this.player.x * ts - ts * 0.25 + ox,
-            this.player.y * ts - ts * 0.25 + oy,
+            this.player.pos.x * ts - ts * 0.25 + ox,
+            this.player.pos.y * ts - ts * 0.25 + oy,
             ts * 0.5,
             ts * 0.5
         )

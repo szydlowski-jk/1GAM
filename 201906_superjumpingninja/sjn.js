@@ -10,10 +10,11 @@ let woy
 let ts
 
 const TILES_PER_VIEW = 16
-const FPS = 10
+const FPS = 60
 const DT = 1000 / FPS
 
 let lvl
+let focused = true
 
 window.setInterval(
     loop,
@@ -21,6 +22,15 @@ window.setInterval(
 )
 window.addEventListener('resize', resize)
 resize()
+
+document.addEventListener('visibilitychange', function(){
+    document.title = document.hidden; // change tab text for demo
+})
+
+window.addEventListener('blur', (e) => console.log(e))
+// window.onfocus = function() {
+//     console.log('got focus')
+// }
 
 function rngtest (range, cycles, seed) {
     let results = []
@@ -37,15 +47,26 @@ function rngtest (range, cycles, seed) {
 // rngtest(7, 100000, 1)
 
 function loop () {
-    ctx.fillStyle = "#000000"
-    ctx.fillRect(0,0, gc.clientWidth, gc.clientHeight)
+    // ctx.fillStyle = "#000000"
+    // ctx.fillRect(0,0, ww, wh)
+    ctx.clearRect(0, 0, ww, wh)
 
-    lvl.update()
-    lvl.draw()
 
     // guarantee view rect
     ctx.fillStyle = "#ffffff20"
     ctx.fillRect(0 + wox, 0 + woy, ts*(TILES_PER_VIEW), ts*(TILES_PER_VIEW))
+
+    lvl.update()
+    lvl.draw()
+
+    ctx.strokeStyle = "#ffff0020"
+    ctx.moveTo(0, 0)
+    ctx.lineTo(ww, wh)
+//    ctx.stroke()
+
+    ctx.moveTo(ww, 0)
+    ctx.lineTo(0, wh)
+    ctx.stroke()
 
 }
 
