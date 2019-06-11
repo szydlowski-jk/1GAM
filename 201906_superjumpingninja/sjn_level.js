@@ -1,6 +1,7 @@
 'use strict'
 
-
+const PLAYER_SIZE = 0.25
+const PLAYER_HALF_SIZE = PLAYER_SIZE * 0.5
 
 class Level {
     constructor(seed) {
@@ -40,12 +41,13 @@ class Level {
     draw() {
         let ox = ((ww * 0.5) - (this.player.pos.x * ts)) || 0
         let oy = ((wh * 0.5) - (this.player.pos.y * ts)) || 0
+
         for (let x = 0; x < lvl.sizex; x++) {
             for (let y = 0; y < lvl.sizey; y++) {
                 // let tx = (x - this.player.x + (TILES_PER_VIEW/2)) * ts
                 // let ty = (y - this.player.y + (TILES_PER_VIEW/2)) * ts
                 ctx.strokeStyle = "#ffffff40"
-                ctx.strokeRect((x * ts)+ox, (y * ts)+oy, ts, ts)
+                ctx.strokeRect(Math.floor((x * ts)+ox), Math.floor((y * ts)+oy), ts, ts)
                 // ctx.strokeStyle = "#ffff0060"
                 // ctx.strokeRect(tx, ty, ts, ts)
                 if (lvl) {
@@ -82,10 +84,10 @@ class Level {
         //! Player Draw
         ctx.fillStyle = "#884411"
         ctx.fillRect(
-            this.player.pos.x * ts - ts * 0.25 + ox,
-            this.player.pos.y * ts - ts * 0.25 + oy,
-            ts * 0.5,
-            ts * 0.5
+            (this.player.pos.x * ts) - (ts * PLAYER_HALF_SIZE) + ox,
+            (this.player.pos.y * ts) - (ts * PLAYER_HALF_SIZE) + oy,
+            ts * PLAYER_SIZE,
+            ts * PLAYER_SIZE
         )
     }
 }

@@ -59,14 +59,14 @@ function loop () {
     lvl.update()
     lvl.draw()
 
-    ctx.strokeStyle = "#ffff0020"
-    ctx.moveTo(0, 0)
-    ctx.lineTo(ww, wh)
-//    ctx.stroke()
+    // * Center of canvas lines
+    // ctx.strokeStyle = "#ffff0020"
+    // ctx.moveTo(0, 0)
+    // ctx.lineTo(ww, wh)
 
-    ctx.moveTo(ww, 0)
-    ctx.lineTo(0, wh)
-    ctx.stroke()
+    // ctx.moveTo(ww, 0)
+    // ctx.lineTo(0, wh)
+    // ctx.stroke()
 
 }
 
@@ -75,6 +75,7 @@ function resize () {
     wh = gc.clientHeight
 
     ts = Math.min( (ww / TILES_PER_VIEW), (wh / TILES_PER_VIEW) )
+    ts = Math.floor(ts)
 
     wox = (ww - (ts * TILES_PER_VIEW)) / 2
     woy = (wh - (ts * TILES_PER_VIEW)) / 2
