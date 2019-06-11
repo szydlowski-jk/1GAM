@@ -38,7 +38,10 @@ class Level {
     }
 
     update () {
-        this.player.pos.add(this.player.spd)
+        let newpos = Vector.add(this.player.pos, this.player.spd)
+
+        this.player.pos = newpos
+        //// this.player.pos.add(this.player.spd)
     }
 
     drawTile (x, y) {
@@ -69,6 +72,15 @@ class Level {
 
             }
         }
+
+        //! Debug player tile marking
+        if (
+            Math.floor(this.player.pos.x) == x &&
+            Math.floor(this.player.pos.y) == y
+        ) {
+            ctx.fillStyle = "#ff000060"
+        }
+
         ctx.fillRect((x * ts) + this.ox, (y * ts) + this.oy, ts, ts)
     }
 
