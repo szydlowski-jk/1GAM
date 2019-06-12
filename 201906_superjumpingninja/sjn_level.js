@@ -14,7 +14,7 @@ class Level {
 
         this.player = {}
         this.player.pos = new Vector(5.5, 5.5)
-        this.player.spd = new Vector(0.005, 0.01)
+        this.player.spd = new Vector(0.04, 0.1)
     }
 
     generate () {
@@ -37,12 +37,49 @@ class Level {
         //        debugger
     }
 
+    isSolid (x, y) {
+        if (x >= 0 &&
+            x < this.sizex &&
+            y >= 0 &&
+            y < this.sizey) {
+                switch(this.tiles[Math.floor(x)][Math.floor(y)]) {
+                    case 0:
+                        return false
+                        break
+                    case 1:
+                    case 2:
+                    case 3:
+                        return true
+                        break
+                }
+            }
+    }
+
     update () {
         let newpos = Vector.add(this.player.pos, this.player.spd)
 
-        if (newpos.x >= 0 && newpos.x < this.sizex &&
-            newpos.y >= 0 && newpos.y < this.sizey) {
+        // * is on ground
+        // if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
+        //     this.player.spd.y = 0
+        // }
 
+        // * Collisions
+        let down = this.isSolid(newpos.x, newpos.y + PLAYER_HALF_SIZE)
+        let up = this.isSolid(newpos.x, newpos.y - PLAYER_HALF_SIZE)
+        let left = this.isSolid(newpos.x - PLAYER_HALF_SIZE, newpos.y)
+        let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
+
+        if (down && this.player.spd.y > 0) {
+            this.player.spd.y *= -1
+            debugger
+        }
+
+        if (up && this.player.spd.y < 0) {
+            this.player.spd.y *= -1
+        }
+
+        if (left || right) {
+            this.player.spd.x *= -1
         }
 
         this.player.pos = newpos

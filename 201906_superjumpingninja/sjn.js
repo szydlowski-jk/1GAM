@@ -23,8 +23,9 @@ window.setInterval(
 window.addEventListener('resize', resize)
 resize()
 
-document.addEventListener('visibilitychange', function(){
-    document.title = document.hidden; // change tab text for demo
+document.addEventListener('visibilitychange', function() {
+    // document.title = document.hidden; // change tab text for demo
+    focused = !document.hidden
 })
 
 window.addEventListener('blur', (e) => console.log(e))
@@ -47,6 +48,13 @@ function rngtest (range, cycles, seed) {
 // rngtest(7, 100000, 1)
 
 function loop () {
+    if (! focused) {
+        document.title =  "PAUSED"
+        return
+    } else {
+        "RUNNING"
+    }
+
     // ctx.fillStyle = "#000000"
     // ctx.fillRect(0,0, ww, wh)
     ctx.clearRect(0, 0, ww, wh)
