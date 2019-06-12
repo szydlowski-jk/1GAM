@@ -14,7 +14,7 @@ class Level {
 
         this.player = {}
         this.player.pos = new Vector(5.5, 5.5)
-        this.player.spd = new Vector(0, 0.0)
+        this.player.spd = new Vector(0.005, 0.01)
     }
 
     generate () {
@@ -39,6 +39,11 @@ class Level {
 
     update () {
         let newpos = Vector.add(this.player.pos, this.player.spd)
+
+        if (newpos.x >= 0 && newpos.x < this.sizex &&
+            newpos.y >= 0 && newpos.y < this.sizey) {
+
+        }
 
         this.player.pos = newpos
         //// this.player.pos.add(this.player.spd)
@@ -79,6 +84,13 @@ class Level {
             Math.floor(this.player.pos.y) == y
         ) {
             ctx.fillStyle = "#ff000060"
+        } else if (
+            (Math.floor(this.player.pos.x + PLAYER_HALF_SIZE) == x &&
+            Math.floor(this.player.pos.y + PLAYER_HALF_SIZE) == y) ||
+            (Math.floor(this.player.pos.x - PLAYER_HALF_SIZE) == x &&
+            Math.floor(this.player.pos.y - PLAYER_HALF_SIZE) == y)
+        ) {
+            ctx.fillStyle = "#ff880060"
         }
 
         ctx.fillRect((x * ts) + this.ox, (y * ts) + this.oy, ts, ts)
