@@ -71,7 +71,6 @@ class Level {
 
         if (down && this.player.spd.y > 0) {
             this.player.spd.y *= -1
-            debugger
         }
 
         if (up && this.player.spd.y < 0) {
