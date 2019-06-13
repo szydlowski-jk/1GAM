@@ -3,6 +3,8 @@
 const PLAYER_SIZE = 0.25
 const PLAYER_HALF_SIZE = PLAYER_SIZE * 0.5
 
+const GRAVITY = new Vector(0, 0.2)
+
 class Level {
     constructor(seed) {
         this.seed = seed
@@ -14,7 +16,7 @@ class Level {
 
         this.player = {}
         this.player.pos = new Vector(5.5, 5.5)
-        this.player.spd = new Vector(0.04, 0.1)
+        this.player.spd = new Vector(0.04, -0.1)
     }
 
     generate () {
@@ -56,12 +58,18 @@ class Level {
     }
 
     update () {
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // TODO Add acceleration to speed calculations
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         let newpos = Vector.add(this.player.pos, this.player.spd)
 
         // * is on ground
         if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
-            this.player.spd.y = 0
-            this.player.spd.x = 0
+//            this.player.spd.y = 0
+//            this.player.spd.x = 0
+        } else {
+            newpos.add(GRAVITY)
         }
 
         // * Collisions
