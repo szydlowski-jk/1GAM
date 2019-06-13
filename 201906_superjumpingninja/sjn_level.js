@@ -59,9 +59,10 @@ class Level {
         let newpos = Vector.add(this.player.pos, this.player.spd)
 
         // * is on ground
-        // if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
-        //     this.player.spd.y = 0
-        // }
+        if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
+            this.player.spd.y = 0
+            this.player.spd.x = 0
+        }
 
         // * Collisions
         let down = this.isSolid(newpos.x, newpos.y + PLAYER_HALF_SIZE)
