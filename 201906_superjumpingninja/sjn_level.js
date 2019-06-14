@@ -16,7 +16,8 @@ class Level {
 
         this.player = {}
         this.player.pos = new Vector(5.5, 5.5)
-        this.player.spd = new Vector(0.04, -0.1)
+        this.player.spd = new Vector()
+        this.player.acc = new Vector()
     }
 
     generate () {
@@ -57,20 +58,23 @@ class Level {
             }
     }
 
+
     update () {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // TODO Add acceleration to speed calculations
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        let newpos = Vector.add(this.player.pos, this.player.spd)
+        // * Update Acceleration here
+        let newacc = Vector.add(this.player.acc, GRAVITY)
 
+        let newspd = Vector.add(this.player.spd, newacc)
+        
         // * is on ground
         if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
-//            this.player.spd.y = 0
-//            this.player.spd.x = 0
-        } else {
-            newpos.add(GRAVITY)
+            newspd.y = 0
         }
+        
+        let newpos = Vector.add(this.player.pos, newspd)
 
         // * Collisions
         let down = this.isSolid(newpos.x, newpos.y + PLAYER_HALF_SIZE)

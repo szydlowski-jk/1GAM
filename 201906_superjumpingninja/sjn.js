@@ -23,6 +23,9 @@ window.setInterval(
 window.addEventListener('resize', resize)
 resize()
 
+gc.addEventListener('click', click)
+
+
 document.addEventListener('visibilitychange', function() {
     // document.title = document.hidden; // change tab text for demo
     focused = !document.hidden
@@ -100,3 +103,9 @@ function resize () {
     lvl.draw()
 }
 
+function click (evt) {
+    console.log((evt.clientX) / ts, evt.clientY / ts)
+
+
+//    lvl.player.acc.add(new Vector.toan)
+}
