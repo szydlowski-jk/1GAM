@@ -3,7 +3,7 @@
 const PLAYER_SIZE = 0.25
 const PLAYER_HALF_SIZE = PLAYER_SIZE * 0.5
 
-const GRAVITY = new Vector(0, 0.2)
+const GRAVITY = new Vector(0, 0.008)
 
 class Level {
     constructor(seed) {
@@ -15,6 +15,7 @@ class Level {
         this.oy = 0
 
         this.player = {}
+        this.player.jmp = false
         this.player.lastDrawPos = new Vector()
         this.player.pos = new Vector(5.5, 5.5)
         this.player.spd = new Vector()
@@ -62,8 +63,8 @@ class Level {
     handleClick (x, y) {
         let v = new Vector(x, y)
         v.subtract(this.player.lastDrawPos)
-        v.divide(100)
-        this.player.acc = v
+        v.normalize().divide(4)
+        this.player.jmp = v
     }
 
     update () {
@@ -71,17 +72,37 @@ class Level {
         // TODO Add acceleration to speed calculations
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+        let isOnGround =
+            this.isSolid(
+                this.player.pos.x,
+                this.player.pos.y + PLAYER_HALF_SIZE
+            )
+
         // * Update Acceleration here
         let newacc = Vector.add(this.player.acc, GRAVITY)
 
+        if (isOnGround && this.player.jmp) {
+            newacc.add(this.player.jmp)
+            this.player.jmp = false
+        }
+
         let newspd = Vector.add(this.player.spd, newacc)
 
+        console.log(this.player.spd)
+//        debugger
+
         // * is on ground
-        if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
+        if ( isOnGround ) {
             if (newspd.y > 0) {
                 newspd.y = 0
             }
+            newspd.x *= 0.9
+            if (Math.abs(newspd.x) < 0.0000001) {
+                newspd.x = 0
+            }
         }
+
+        this.player.spd = newspd
 
         let newpos = Vector.add(this.player.pos, newspd)
 
@@ -92,7 +113,7 @@ class Level {
         let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
 
         if (down && this.player.spd.y > 0) {
-            this.player.spd.y *= -1
+            // this.player.spd.y *= -1
         }
 
         if (up && this.player.spd.y < 0) {
