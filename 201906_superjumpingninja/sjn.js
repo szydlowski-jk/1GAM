@@ -106,6 +106,7 @@ function resize () {
 function click (evt) {
     console.log((evt.clientX) / ts, evt.clientY / ts)
 
+    lvl.handleClick(evt.clientX, evt.clientY)
 
 //    lvl.player.acc.add(new Vector.toan)
 }

@@ -15,6 +15,7 @@ class Level {
         this.oy = 0
 
         this.player = {}
+        this.player.lastDrawPos = new Vector()
         this.player.pos = new Vector(5.5, 5.5)
         this.player.spd = new Vector()
         this.player.acc = new Vector()
@@ -58,6 +59,12 @@ class Level {
             }
     }
 
+    handleClick (x, y) {
+        let v = new Vector(x, y)
+        v.subtract(this.player.lastDrawPos)
+        v.divide(100)
+        this.player.acc = v
+    }
 
     update () {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -68,12 +75,14 @@ class Level {
         let newacc = Vector.add(this.player.acc, GRAVITY)
 
         let newspd = Vector.add(this.player.spd, newacc)
-        
+
         // * is on ground
         if ( this.isSolid(this.player.pos.x, this.player.pos.y + PLAYER_HALF_SIZE)) {
-            newspd.y = 0
+            if (newspd.y > 0) {
+                newspd.y = 0
+            }
         }
-        
+
         let newpos = Vector.add(this.player.pos, newspd)
 
         // * Collisions
@@ -96,6 +105,7 @@ class Level {
 
         this.player.pos = newpos
         //// this.player.pos.add(this.player.spd)
+        this.player.acc.set(0, 0)
     }
 
     drawTile (x, y) {
@@ -157,9 +167,11 @@ class Level {
 
         //! Player Draw
         ctx.fillStyle = "#884411"
+        this.player.lastDrawPos.x = (this.player.pos.x * ts) - (ts * PLAYER_HALF_SIZE) + this.ox
+        this.player.lastDrawPos.y = (this.player.pos.y * ts) - (ts * PLAYER_HALF_SIZE) + this.oy
         ctx.fillRect(
-            (this.player.pos.x * ts) - (ts * PLAYER_HALF_SIZE) + this.ox,
-            (this.player.pos.y * ts) - (ts * PLAYER_HALF_SIZE) + this.oy,
+            this.player.lastDrawPos.x,
+            this.player.lastDrawPos.y,
             ts * PLAYER_SIZE,
             ts * PLAYER_SIZE
         )
