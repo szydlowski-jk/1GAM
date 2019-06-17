@@ -113,7 +113,11 @@ class Level {
         let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
 
         if (down && this.player.spd.y > 0) {
-            // this.player.spd.y *= -1
+            // debugger
+            if (!isOnGround) {
+                newpos.y = Math.floor(newpos.y + PLAYER_HALF_SIZE)-PLAYER_HALF_SIZE
+            }
+            this.player.spd.y = 0
         }
 
         if (up && this.player.spd.y < 0) {
