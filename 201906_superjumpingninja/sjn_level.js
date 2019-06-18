@@ -41,7 +41,7 @@ class Level {
             }
             this.tiles.push(r)
         }
-        
+
 
         //        debugger
     }
@@ -78,73 +78,76 @@ class Level {
         // TODO Add acceleration to speed calculations
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        let isOnGround =
-            this.isSolid(
-                this.player.pos.x,
-                this.player.pos.y + PLAYER_HALF_SIZE
-            )
+        for(let i = 0; i < 10; i++) {
 
-        // * Update Acceleration here
-        let newacc = Vector.add(this.player.acc, GRAVITY)
+            let isOnGround =
+                this.isSolid(
+                    this.player.pos.x,
+                    this.player.pos.y + PLAYER_HALF_SIZE
+                )
 
-        if (isOnGround && this.player.jmp) {
-            newacc.add(this.player.jmp)
-            this.player.jmp = false
-        }
+            // * Update Acceleration here
+            let newacc = Vector.add(this.player.acc, GRAVITY)
 
-        let newspd = Vector.add(this.player.spd, newacc)
-
-        console.log(this.player.spd)
-//        debugger
-
-        // * is on ground
-        if ( isOnGround ) {
-            if (newspd.y > 0) {
-                newspd.y = 0
+            if (isOnGround && this.player.jmp) {
+                newacc.add(this.player.jmp)
+                this.player.jmp = false
             }
-            newspd.x *= 0.9
-            if (Math.abs(newspd.x) < 0.0000001) {
-                newspd.x = 0
+
+            let newspd = Vector.add(this.player.spd, newacc)
+
+            console.log(this.player.spd)
+    //        debugger
+
+            // * is on ground
+            if ( isOnGround ) {
+                if (newspd.y > 0) {
+                    newspd.y = 0
+                }
+                newspd.x *= 0.9
+                if (Math.abs(newspd.x) < 0.0000001) {
+                    newspd.x = 0
+                }
             }
-        }
 
-        this.player.spd = newspd
+            this.player.spd = newspd
 
-        let newpos = Vector.add(this.player.pos, newspd)
+            let newpos = Vector.add(this.player.pos, newspd)
 
-        // * Collisions
-        let down = this.isSolid(newpos.x, newpos.y + PLAYER_HALF_SIZE)
-        let up = this.isSolid(newpos.x, newpos.y - PLAYER_HALF_SIZE)
+            // * Collisions
+            let down = this.isSolid(newpos.x, newpos.y + PLAYER_HALF_SIZE)
+            let up = this.isSolid(newpos.x, newpos.y - PLAYER_HALF_SIZE)
 
-        if (down && this.player.spd.y > 0) {
-            // debugger
-            if (!isOnGround) {
-                newpos.y = Math.floor(newpos.y + PLAYER_HALF_SIZE) - PLAYER_HALF_SIZE
+            if (down && this.player.spd.y > 0) {
+                // debugger
+                if (!isOnGround) {
+                    newpos.y = Math.floor(newpos.y + PLAYER_HALF_SIZE) - PLAYER_HALF_SIZE
+                }
+                this.player.spd.y = 0
             }
-            this.player.spd.y = 0
-        }
 
-        if (up && this.player.spd.y < 0) {
-            this.player.spd.y *= -1
-            newpos.y = Math.ceil(newpos.y - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
-        }
+            if (up && this.player.spd.y < 0) {
+                this.player.spd.y *= -1
+                newpos.y = Math.ceil(newpos.y - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
+            }
 
-        let left = this.isSolid(newpos.x - PLAYER_HALF_SIZE, newpos.y)
-        let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
+            let left = this.isSolid(newpos.x - PLAYER_HALF_SIZE, newpos.y)
+            let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
 
-        if (left && this.player.spd.x < 0) {
-            newpos.x = Math.ceil(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
-            this.player.spd.x *= -1
-        }
-        
-        if (right && this.player.spd.x > 0) {
-            newpos.x = Math.floor(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
-            this.player.spd.x *= -1
-        }
+            if (left && this.player.spd.x < 0) {
+                newpos.x = Math.ceil(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
+                this.player.spd.x *= -1
+            }
 
-        this.player.pos = newpos
-        //// this.player.pos.add(this.player.spd)
-        this.player.acc.set(0, 0)
+            if (right && this.player.spd.x > 0) {
+                newpos.x = Math.floor(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
+                this.player.spd.x *= -1
+            }
+
+            this.player.pos = newpos
+            //// this.player.pos.add(this.player.spd)
+            this.player.acc.set(0, 0)
+        }
     }
 
     drawTile (x, y) {
