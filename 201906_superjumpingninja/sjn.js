@@ -64,10 +64,11 @@ function loop () {
 
 
     // guarantee view rect
+    lvl.update()
+
     ctx.fillStyle = "#ffffff20"
     ctx.fillRect(0 + wox, 0 + woy, ts*(TILES_PER_VIEW), ts*(TILES_PER_VIEW))
 
-    lvl.update()
     lvl.draw()
 
     // * Center of canvas lines

@@ -109,8 +109,6 @@ class Level {
         // * Collisions
         let down = this.isSolid(newpos.x, newpos.y + PLAYER_HALF_SIZE)
         let up = this.isSolid(newpos.x, newpos.y - PLAYER_HALF_SIZE)
-        let left = this.isSolid(newpos.x - PLAYER_HALF_SIZE, newpos.y)
-        let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
 
         if (down && this.player.spd.y > 0) {
             // debugger
@@ -124,8 +122,12 @@ class Level {
             this.player.spd.y *= -1
         }
 
-        if (left || right) {
+        let left = this.isSolid(newpos.x - PLAYER_HALF_SIZE, newpos.y)
+        let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
+
+        if (left == true || right == true) {
             this.player.spd.x *= -1
+            debugger
         }
 
         this.player.pos = newpos
