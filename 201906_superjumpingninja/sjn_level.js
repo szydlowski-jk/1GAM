@@ -34,13 +34,19 @@ class Level {
                 let t = 0
                 if (x == 0 || y == 0 || x == this.sizex - 1 || y == this.sizey - 1) {
                     t = (rng.next() % 3) + 1
+                } else if (y < 7 && x == 10) {
+                    t = 1
                 }
                 r.push(t)
             }
             this.tiles.push(r)
         }
+        
+
         //        debugger
     }
+
+
 
     isSolid (x, y) {
         if (x >= 0 &&
@@ -113,21 +119,27 @@ class Level {
         if (down && this.player.spd.y > 0) {
             // debugger
             if (!isOnGround) {
-                newpos.y = Math.floor(newpos.y + PLAYER_HALF_SIZE)-PLAYER_HALF_SIZE
+                newpos.y = Math.floor(newpos.y + PLAYER_HALF_SIZE) - PLAYER_HALF_SIZE
             }
             this.player.spd.y = 0
         }
 
         if (up && this.player.spd.y < 0) {
             this.player.spd.y *= -1
+            newpos.y = Math.ceil(newpos.y - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
         }
 
         let left = this.isSolid(newpos.x - PLAYER_HALF_SIZE, newpos.y)
         let right = this.isSolid(newpos.x + PLAYER_HALF_SIZE, newpos.y)
 
-        if (left == true || right == true) {
+        if (left && this.player.spd.x < 0) {
+            newpos.x = Math.ceil(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
             this.player.spd.x *= -1
-            debugger
+        }
+        
+        if (right && this.player.spd.x > 0) {
+            newpos.x = Math.floor(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
+            this.player.spd.x *= -1
         }
 
         this.player.pos = newpos
