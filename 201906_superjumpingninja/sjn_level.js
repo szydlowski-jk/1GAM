@@ -3,7 +3,7 @@
 const PLAYER_SIZE = 0.25
 const PLAYER_HALF_SIZE = PLAYER_SIZE * 0.5
 
-const GRAVITY = new Vector(0, 0.008)
+const GRAVITY = new Vector(0, 0.016)
 
 class Level {
     constructor(seed) {
@@ -69,7 +69,7 @@ class Level {
     handleClick (x, y) {
         let v = new Vector(x, y)
         v.subtract(this.player.lastDrawPos)
-        v.normalize().divide(3.5)
+        v.normalize().divide(3)
         this.player.jmp = v
     }
 
@@ -203,7 +203,7 @@ debugger
 
         for (let x = 0; x < lvl.sizex; x++) {
             for (let y = 0; y < lvl.sizey; y++) {
-                this.drawTile(x, y)
+                this.drawTile(y, x)
             }
         }
 
