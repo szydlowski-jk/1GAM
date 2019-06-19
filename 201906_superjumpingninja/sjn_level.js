@@ -69,7 +69,7 @@ class Level {
     handleClick (x, y) {
         let v = new Vector(x, y)
         v.subtract(this.player.lastDrawPos)
-        v.normalize().divide(4)
+        v.normalize().divide(3.5)
         this.player.jmp = v
     }
 
@@ -87,14 +87,14 @@ class Level {
                 )
 
             // * Update Acceleration here
-            let newacc = Vector.add(this.player.acc, GRAVITY)
-
+            let newacc = Vector.add(this.player.acc, Vector.divide(GRAVITY, 10))
+debugger
             if (isOnGround && this.player.jmp) {
                 newacc.add(this.player.jmp)
                 this.player.jmp = false
             }
 
-            let newspd = Vector.add(this.player.spd, newacc)
+            let newspd = Vector.add(this.player.spd, Vector.divide(newacc,10))
 
             console.log(this.player.spd)
     //        debugger
@@ -104,7 +104,7 @@ class Level {
                 if (newspd.y > 0) {
                     newspd.y = 0
                 }
-                newspd.x *= 0.9
+                newspd.x *= 0.98
                 if (Math.abs(newspd.x) < 0.0000001) {
                     newspd.x = 0
                 }
@@ -140,7 +140,7 @@ class Level {
             }
 
             if (right && this.player.spd.x > 0) {
-                newpos.x = Math.floor(newpos.x - PLAYER_HALF_SIZE) + PLAYER_HALF_SIZE
+                newpos.x = Math.floor(newpos.x + PLAYER_HALF_SIZE) - PLAYER_HALF_SIZE
                 this.player.spd.x *= -1
             }
 
@@ -180,19 +180,19 @@ class Level {
         }
 
         //! Debug player tile marking
-        if (
-            Math.floor(this.player.pos.x) == x &&
-            Math.floor(this.player.pos.y) == y
-        ) {
-            ctx.fillStyle = "#ff000060"
-        } else if (
-            (Math.floor(this.player.pos.x + PLAYER_HALF_SIZE) == x &&
-            Math.floor(this.player.pos.y + PLAYER_HALF_SIZE) == y) ||
-            (Math.floor(this.player.pos.x - PLAYER_HALF_SIZE) == x &&
-            Math.floor(this.player.pos.y - PLAYER_HALF_SIZE) == y)
-        ) {
-            ctx.fillStyle = "#ff880060"
-        }
+        // if (
+        //     Math.floor(this.player.pos.x) == x &&
+        //     Math.floor(this.player.pos.y) == y
+        // ) {
+        //     ctx.fillStyle = "#ff000060"
+        // } else if (
+        //     (Math.floor(this.player.pos.x + PLAYER_HALF_SIZE) == x &&
+        //     Math.floor(this.player.pos.y + PLAYER_HALF_SIZE) == y) ||
+        //     (Math.floor(this.player.pos.x - PLAYER_HALF_SIZE) == x &&
+        //     Math.floor(this.player.pos.y - PLAYER_HALF_SIZE) == y)
+        // ) {
+        //     ctx.fillStyle = "#ff880060"
+        // }
 
         ctx.fillRect((x * ts) + this.ox, (y * ts) + this.oy, ts, ts)
     }
