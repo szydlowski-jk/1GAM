@@ -2,8 +2,9 @@
 
 const PLAYER_SIZE = 0.25
 const PLAYER_HALF_SIZE = PLAYER_SIZE * 0.5
+const PLAYER_JUMP_FRAMES = 30
 
-const GRAVITY = new Vector(0, 0.016)
+const GRAVITY = new Vector(0, 0.012)
 
 class Level {
     constructor(seed) {
@@ -16,6 +17,7 @@ class Level {
 
         this.player = {}
         this.player.jmp = false
+        this.player.jmpFrames = 0
         this.player.lastDrawPos = new Vector()
         this.player.pos = new Vector(5.5, 5.5)
         this.player.spd = new Vector()
@@ -71,12 +73,19 @@ class Level {
         v.subtract(this.player.lastDrawPos)
         v.normalize().divide(3)
         this.player.jmp = v
+        this.player.jmpFrames = PLAYER_JUMP_FRAMES
     }
 
     update () {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // TODO Add acceleration to speed calculations
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (this.player.jmpFrames > 0) {
+            this.player.jmpFrames--
+        } else {
+            this.player.jmp = false
+        }
+
 
         for(let i = 0; i < 10; i++) {
 
@@ -88,16 +97,15 @@ class Level {
 
             // * Update Acceleration here
             let newacc = Vector.add(this.player.acc, Vector.divide(GRAVITY, 10))
-debugger
             if (isOnGround && this.player.jmp) {
                 newacc.add(this.player.jmp)
                 this.player.jmp = false
+                this.player.jmpFrames = 0
             }
 
             let newspd = Vector.add(this.player.spd, Vector.divide(newacc,10))
 
-            console.log(this.player.spd)
-    //        debugger
+//            console.log(this.player.spd)
 
             // * is on ground
             if ( isOnGround ) {
